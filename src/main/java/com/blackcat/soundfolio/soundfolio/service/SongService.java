@@ -24,26 +24,18 @@ public class SongService {
         this.moodRepository = moodRepository;
     }
 
-    public List<SongResponse> getAllSongs(){
-        List<Song> songList = songRepository.findAll();
-        List<SongResponse> responseList = new ArrayList<>();
-        for (Song song : songList) {
-
-            SongResponse convertedSong = SongResponse.builder()
-                    .id(song.getId())
-                    .title(song.getTitle())
-                    .artist(song.getArtist())
-                    .albumName(song.getAlbumName())
-                    .rating(song.getRating())
-                    .review(song.getReview())
-                    .moods(song.getMoods().stream().map(m -> m.getName()).toList())
-                    .build();
-
-            responseList.add(convertedSong);
-        }
-
-        return responseList;
-
+    public List<SongResponse> getAllSongs() {
+        return songRepository.findAll().stream()
+                .map(song -> SongResponse.builder()
+                        .id(song.getId())
+                        .title(song.getTitle())
+                        .artist(song.getArtist())
+                        .albumName(song.getAlbumName())
+                        .rating(song.getRating())
+                        .review(song.getReview())
+                        .moods(song.getMoods().stream().map(m -> m.getName()).toList())
+                        .build())
+                .toList();
     }
 
     public SongResponse saveSong(SongRequest request) {
