@@ -1,12 +1,14 @@
 package com.blackcat.soundfolio.soundfolio.service;
 
 import com.blackcat.soundfolio.soundfolio.dto.SongRequest;
+import com.blackcat.soundfolio.soundfolio.dto.SongResponse;
 import com.blackcat.soundfolio.soundfolio.model.Mood;
 import com.blackcat.soundfolio.soundfolio.model.Song;
 import com.blackcat.soundfolio.soundfolio.repository.MoodsRepository;
 import com.blackcat.soundfolio.soundfolio.repository.SongRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,8 +24,29 @@ public class SongService {
         this.moodRepository = moodRepository;
     }
 
+    public List<SongResponse> getAllSongs(){
+        List<Song> songList = songRepository.findAll();
+        List<SongResponse> responseList = new ArrayList<>();
+        for (Song song : songList) {
 
-    public Song saveSong(SongRequest request) {
+            SongResponse convertedSong = SongResponse.builder()
+                    .id(song.getId())
+                    .title(song.getTitle())
+                    .artist(song.getArtist())
+                    .albumName(song.getAlbumName())
+                    .rating(song.getRating())
+                    .review(song.getReview())
+                    .moods(song.getMoods().stream().map(m -> m.getName()).toList())
+                    .build();
+
+            responseList.add(convertedSong);
+        }
+
+        return responseList;
+
+    }
+
+    public SongResponse saveSong(SongRequest request) {
         Set<Mood> moods = new HashSet<>();
 
         if (request.getMoods() != null) {
@@ -42,6 +65,17 @@ public class SongService {
                 .moods(moods)
                 .build();
 
-        return songRepository.save(song);
+        Song savedSong = songRepository.save(song);
+
+        return SongResponse.builder()
+                .id(savedSong.getId())
+                .title(savedSong.getTitle())
+                .artist(savedSong.getArtist())
+                .albumName(savedSong.getAlbumName())
+                .rating(savedSong.getRating())
+                .review(savedSong.getReview())
+                .moods(savedSong.getMoods().stream().map(m -> m.getName()).toList())
+                .build();
+
     }
 }

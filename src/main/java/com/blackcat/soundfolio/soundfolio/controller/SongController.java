@@ -1,14 +1,14 @@
 package com.blackcat.soundfolio.soundfolio.controller;
 
 import com.blackcat.soundfolio.soundfolio.dto.SongRequest;
+import com.blackcat.soundfolio.soundfolio.dto.SongResponse;
 import com.blackcat.soundfolio.soundfolio.model.Song;
 import com.blackcat.soundfolio.soundfolio.service.SongService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/songfolio/my-music/songs")
@@ -20,8 +20,13 @@ public class SongController {
         this.songService = songService;
     }
 
+    @GetMapping(path = "/all")
+    public List<SongResponse> getAllSongs(){
+        return songService.getAllSongs();
+    }
+
     @PostMapping(path = "/create")
-    public Song createSong(@Valid @RequestBody SongRequest request) {
+    public SongResponse createSong(@Valid @RequestBody SongRequest request) {
         return songService.saveSong(request);
     }
 }
