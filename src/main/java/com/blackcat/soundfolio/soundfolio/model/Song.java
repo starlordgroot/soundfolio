@@ -35,14 +35,14 @@ public class Song {
 
     private Boolean isPrivate = false;
 
-    //Many-to-many, Songs can have multiple "vibes".
+    //Many-to-many, Songs can have multiple "mood".
     @ManyToMany
     @JoinTable(
-            name = "song_vibe",
+            name = "song_mood",
             joinColumns = @JoinColumn(name = "song_id"),
-            inverseJoinColumns = @JoinColumn(name = "vibe_id")
+            inverseJoinColumns = @JoinColumn(name = "mood_id")
     )
-    private Set<Vibe> vibes = new HashSet<>();
+    private Set<Mood> moods = new HashSet<>();
 
     @PrePersist
     protected void onCreate(){

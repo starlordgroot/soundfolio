@@ -2,7 +2,7 @@
 
 _Your personal music journal — log, rate, and reflect on the songs that shaped your mood._
 
-**Soundfolio** is a fullstack web application that helps you catalog and revisit the music that meant something to you. Think of it as your own music diary meets greatest hits archive. You can log songs with ratings, reviews, vibes, and even fetch album art and metadata from external sources like iTunes or Spotify.
+**Soundfolio** is a fullstack web application that helps you catalog and revisit the music that meant something to you. Think of it as your own music diary meets greatest hits archive. You can log songs with ratings, reviews, moods, and even fetch album art and metadata from external sources like iTunes or Spotify.
 
 ---
 
@@ -30,11 +30,11 @@ _Your personal music journal — log, rate, and reflect on the songs that shaped
 - Write journal entries  
   Reflect on why a song hit — write as much or as little as you want.
 
-- Tag with “vibes”  
-  Use vibe tags like chill, nostalgic, rage, ethereal, etc.
+- Tag with “moods”  
+  Use mood tags like chill, nostalgic, rage, ethereal, etc.
 
 - Filter by mood or rating  
-  Easily find songs based on vibe, rating, or date.
+  Easily find songs based on mood, rating, or date.
 
 - Private or public entries (future-ready)  
   Mark personal reviews as private if needed.

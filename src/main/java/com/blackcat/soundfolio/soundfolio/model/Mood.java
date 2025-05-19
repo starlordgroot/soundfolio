@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Vibe {
+public class Mood {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +21,8 @@ public class Vibe {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "vibes")
+    @ManyToMany(mappedBy = "moods")
     private Set<Song> songs = new HashSet<>();
+
+
 }
