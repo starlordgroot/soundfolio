@@ -1,5 +1,6 @@
 package com.blackcat.soundfolio.soundfolio.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,7 @@ public class Mood {
     private String name;
 
     @ManyToMany(mappedBy = "moods")
+    @JsonIgnore
     private Set<Song> songs = new HashSet<>();
 
 
