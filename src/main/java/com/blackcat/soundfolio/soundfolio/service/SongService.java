@@ -18,10 +18,12 @@ public class SongService {
 
     private final SongRepository songRepository;
     private final MoodsRepository moodRepository;
+    private final ITunesLookupService itunesLookupService;
 
-    public SongService(SongRepository songRepository, MoodsRepository moodRepository) {
+    public SongService(SongRepository songRepository, MoodsRepository moodRepository, ITunesLookupService itunesLookupService) {
         this.songRepository = songRepository;
         this.moodRepository = moodRepository;
+        this.itunesLookupService = itunesLookupService;
     }
 
     public List<SongResponse> getAllSongs() {
@@ -47,11 +49,15 @@ public class SongService {
             }
         }
 
+
+        ITunesLookupService.ItunesMetadata metadata = itunesLookupService.fetchSongMetadata(request.getTitle(), request.getArtist());
+
+
         Song song = Song.builder()
                 .title(request.getTitle())
                 .artist(request.getArtist())
-                .albumName(request.getAlbumName())
-                .albumArtUrl(request.getAlbumArtUrl())
+                .albumName(request.getAlbumName() != null ? request.getAlbumName() : (metadata != null ? metadata.albumName() : null))
+                .albumArtUrl(request.getAlbumArtUrl() != null ? request.getAlbumArtUrl() : (metadata != null ? metadata.albumArtUrl() : null))
                 .rating(request.getRating())
                 .review(request.getReview())
                 .moods(moods)
