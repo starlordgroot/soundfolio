@@ -29,4 +29,12 @@ public class SongController {
     public SongResponse createSong(@Valid @RequestBody SongRequest request) {
         return songService.saveSong(request);
     }
+
+    @GetMapping(path = "/songs")
+    public List<SongResponse> getSongs(
+            @RequestParam(required = false) String artist,
+            @RequestParam(required = false) String mood) {
+        return songService.getFilteredSongs(artist, mood);
+    }
+
 }

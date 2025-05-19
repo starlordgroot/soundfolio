@@ -27,16 +27,9 @@ public class SongService {
     }
 
     public List<SongResponse> getAllSongs() {
-        return songRepository.findAll().stream()
-                .map(song -> SongResponse.builder()
-                        .id(song.getId())
-                        .title(song.getTitle())
-                        .artist(song.getArtist())
-                        .albumName(song.getAlbumName())
-                        .rating(song.getRating())
-                        .review(song.getReview())
-                        .moods(song.getMoods().stream().map(m -> m.getName()).toList())
-                        .build())
+        return songRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
                 .toList();
     }
 
@@ -65,15 +58,41 @@ public class SongService {
 
         Song savedSong = songRepository.save(song);
 
-        return SongResponse.builder()
-                .id(savedSong.getId())
-                .title(savedSong.getTitle())
-                .artist(savedSong.getArtist())
-                .albumName(savedSong.getAlbumName())
-                .rating(savedSong.getRating())
-                .review(savedSong.getReview())
-                .moods(savedSong.getMoods().stream().map(m -> m.getName()).toList())
-                .build();
+        return mapToResponse(savedSong);
 
     }
+
+
+    public List<SongResponse> getFilteredSongs(String artist, String mood){
+
+        List<Song> songs;
+
+        if (artist != null && mood != null) {
+            songs = songRepository.findByArtistAndMood(artist, mood);
+        } else if (artist != null) {
+            songs = songRepository.findByArtistIgnoreCase(artist);
+        } else if (mood != null) {
+            songs = songRepository.findByMoodNameIgnoreCase(mood);
+        } else {
+            songs = songRepository.findAll();
+        }
+
+        return songs.stream().map(this::mapToResponse).toList();
+
+    }
+
+    public SongResponse mapToResponse(Song song){
+        return SongResponse.builder()
+                .id(song.getId())
+                .title(song.getTitle())
+                .artist(song.getArtist())
+                .albumName(song.getAlbumName())
+                .albumArtUrl(song.getAlbumArtUrl())
+                .rating(song.getRating())
+                .review(song.getReview())
+                .moods(song.getMoods().stream().map(m -> m.getName()).toList())
+                .build();
+    }
+
+
 }
