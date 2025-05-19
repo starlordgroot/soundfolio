@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/songfolio/my-music/songs")
+@RequestMapping("/songfolio/my-music/")
 public class SongController {
 
     private final SongService songService;
